@@ -6,6 +6,16 @@ import express from 'express';
 const router = express.Router();
 import * as controller from '../controllers/livresController.js';
 
+// GET /api/v1/livres/recherche?q=clean
+router.get('/recherche', (req, res) => {
+  const { q } = req.query;
+  if (!q) return res.status(400).json({ erreur: 'Paramètre q requis' });
+  const resultats = livresModel.findAll({ recherche: q });
+  res.json({ query: q, total: resultats.length, resultats });
+});
+// ⚠️ Cette route doit être AVANT router.get('/:id') — sinon Express
+// interpréterait 'recherche' comme un id !
+
 // GET /api/v1/livres           → liste tous les livres (+ filtres query params)
 router.get('/', controller.getLivres);
 

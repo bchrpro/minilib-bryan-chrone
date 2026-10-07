@@ -1,15 +1,3 @@
-// ─── backend/src/app.js ─────────────────────────────────────────────
-app.use('/api/v1/v1/livres', livresRouter);
-
-// Route de santé — permet de vérifier que le serveur tourne
-app.get('/health', (req, res) => {
-  res.json({
-    status: 'OK',
-    message: 'Serveur MiniLib opérationnel',
-    timestamp: new Date().toISOString(),
-  });
-});
-
 // Point d'entrée du serveur Express MiniLib
 // Démarre avec : npm run dev
 
@@ -36,14 +24,28 @@ app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();   // next() = passer au middleware/route suivant
 });
+
 // ── Routes ───────────────────────────────────────────────────────────
 // Toutes les routes de livres seront préfixées par /api/v1/livres
+// ─── backend/src/app.js ─────────────────────────────────────────────
+app.use('/api/v1/livres', livresRouter);
+
+// Route de santé — permet de vérifier que le serveur tourne
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'Serveur MiniLib opérationnel',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Middleware de gestion des routes inconnues (404)
 app.use((req, res) => {
   res.status(404).json({
     erreur: `Route ${req.method} ${req.url} non trouvée`,
   });
 });
+
 
 // Middleware de gestion des erreurs serveur (500)
 // Express reconnaît ce middleware à ses 4 paramètres (err en premier)
@@ -59,4 +61,3 @@ app.listen(PORT, () => {
 });
 
 export default app;   // export pour les tests futurs
-

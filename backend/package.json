@@ -1,8 +1,10 @@
 {
-  "name": "backend",
+  "name": "minilib-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API REST MiniLib — Node.js / Express",
+  "type": "module",
+  "private": true,
+  "main": "src/app.js",
   "scripts": {
     "start": "node --env-file=.env src/app.js",
     "dev": "node --watch --env-file=.env src/app.js",
@@ -11,7 +13,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^5.2.1",

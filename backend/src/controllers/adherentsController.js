@@ -1,5 +1,6 @@
 // backend/src/controllers/adherentsController.js
 import * as adherentsModel from '../models/adherentsModel.js';
+import pool from '../config/database.js';
 
 /** GET /api/v1/adherents */
 export const getAdherents = async (req, res) => {

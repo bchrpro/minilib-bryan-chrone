@@ -1,22 +1,14 @@
 // backend/src/models/livresModel.js
-/**
- * Accès aux données livres via PostgreSQL.
- * Remplace l'ancien livresData.js en mémoire.
- * Toutes les fonctions sont async — elles retournent des Promises.
- *
- * @module livresModel
- */
+// Annotations TypeScript via JSDoc — compatible Node.js sans compilation
 import pool from '../config/database.js';
+
+/** @import { Livre, CreateLivreDto, FiltresLivre } from '../types/index.js' */
 
 /**
  * Récupère tous les livres avec filtres optionnels.
  *
- * @async
- * @param {Object}  [filtres={}]
- * @param {string}  [filtres.genre]
- * @param {boolean} [filtres.disponible]
- * @param {string}  [filtres.recherche]  - Recherche dans titre ou auteur (ILIKE)
- * @returns {Promise<Array>} Tableau de livres
+ * @param {FiltresLivre} [filtres={}]
+ * @returns {Promise<Livre[]>}
  */
 export const findAll = async (filtres = {}) => {
   const conditions = [];
@@ -46,6 +38,23 @@ export const findAll = async (filtres = {}) => {
 };
 
 /**
+ * Crée un nouveau livre.
+ *
+ * @param {CreateLivreDto} data
+ * @returns {Promise<Livre>}
+ */
+export const create = async (data) => {
+  const { isbn, titre, auteur, annee, genre } = data;
+  const result = await pool.query(
+    `INSERT INTO livres (isbn, titre, auteur, annee, genre)
+     VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+    [isbn, titre, auteur, annee, genre]
+    // RETURNING * retourne la ligne insérée — y compris l'id généré par SERIAL
+  );
+  return result.rows[0];
+};
+
+/**
  * Trouve un livre par son id.
  * @async
  * @param {number} id
@@ -54,22 +63,6 @@ export const findAll = async (filtres = {}) => {
 export const findById = async (id) => {
   const result = await pool.query('SELECT * FROM livres WHERE id = $1', [id]);
   return result.rows[0] || null;
-};
-
-/**
- * Crée un nouveau livre.
- * @async
- * @param {Object} data - { isbn, titre, auteur, annee, genre }
- * @returns {Promise<Object>} Le livre créé avec son id
- */
-export const create = async ({ isbn, titre, auteur, annee, genre }) => {
-  const result = await pool.query(
-    `INSERT INTO livres (isbn, titre, auteur, annee, genre)
-     VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-    [isbn, titre, auteur, annee, genre]
-    // RETURNING * retourne la ligne insérée — y compris l'id généré par SERIAL
-  );
-  return result.rows[0];
 };
 
 /**
@@ -92,6 +85,7 @@ export const update = async (id, data) => {
   );
   return result.rows[0] || null;
 };
+
 /**
  * Supprime un livre.
  * @async
@@ -104,4 +98,3 @@ export const remove = async (id) => {
   );
   return result.rowCount > 0;
 };
-

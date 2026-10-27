@@ -9,7 +9,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
     "checkJs": true,
     "allowJs": true,
     // noEmit: true = vérifie les types sans générer de fichiers

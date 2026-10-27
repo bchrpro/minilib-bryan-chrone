@@ -30,7 +30,11 @@ function LivresPage() {
 
   // ── Rendu conditionnel ──────────────────────────────────────
   if (chargement) {
-    return <p>Chargement du catalogue...</p>;
+    return (
+      <div className="loading-container">
+        <span className="loader"></span>
+        <p>Chargement du catalogue...</p>
+      </div>);
   }
 
   if (erreur) {

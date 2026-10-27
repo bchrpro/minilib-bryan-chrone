@@ -1,5 +1,5 @@
 // frontend/src/services/livreService.ts
-import { Livre, CreateLivreDto, FiltresLivre } from "../types";
+import type { Livre, CreateLivreDto, FiltresLivre } from "../types";
 import { apiRequest } from "./api";
 
 /**

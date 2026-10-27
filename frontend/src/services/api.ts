@@ -2,7 +2,7 @@
 // Client HTTP centralisé — toute l'app passe par ici
 
 // Vite expose les variables VITE_ via import.meta.env
-const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5000/api/v1";
+const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080/api/v1";
 
 export interface ApiError {
   erreur: string;

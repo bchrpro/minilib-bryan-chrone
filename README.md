@@ -16,27 +16,21 @@
 - **Base de données** : PostgreSQL 16
 - **Conteneurisation** : Docker + Docker Compose
 
-## Démarrage rapide
- 
+## Démarrage avec Docker
+### Prérequis
+- Docker 26+ et Docker Compose v2+
+### Développement
 ```bash
-# Cloner le repo
-git clone https://github.com/bryanchr/minilib-bryan-chrone.git
-cd minilib
- 
-# Configurer l'environnement
+# Copier les variables d'environnement
 cp .env.example .env
-# (éditer .env avec vos valeurs locales)
- 
-# Lancer l'application complète
-docker compose up -d
- 
-# Vérifier que tout tourne
-curl http://localhost:3001/api/v1/health
+# Remplir .env avec vos valeurs
+# Démarrer l'application complète
+docker compose up --build
+# Accéder à l'application
+# Frontend : http://localhost:3000
+# API : http://localhost:8080
 ```
- 
-L'application est accessible sur :
-- **Frontend** : http://localhost:5173
-- **API** : http://localhost:3001/api/v1
-- **Documentation API (Swagger)** : http://localhost:3001/api/docs
-
-
+### Production
+```bash
+docker compose -fdocker-compose.prod.yml up -d --build
+```
